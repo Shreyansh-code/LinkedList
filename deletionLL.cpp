@@ -64,7 +64,7 @@ void deleteion(Node* &head, int pos){
         return;
     }
     else{
-    while(count<=pos-1){
+    while(count<pos){
         count ++;
         temp=curr;
         curr=curr->next;
