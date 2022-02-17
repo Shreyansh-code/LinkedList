@@ -1,0 +1,109 @@
+****************************************************************
+Approach 1 - use of map(map<Node*, bool> visited)
+Approach 2 - Floyds loop detection algo(slow and fast pointers)
+****************************************************************
+
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+
+class Node{
+public:    
+    int data;
+    Node* next;
+
+    Node(int d){
+        this->data=d;
+        this->next=NULL;
+    } 
+};
+
+bool isLoop(Node* &head){
+    if(head == NULL){
+        return false;
+    }
+    map<Node*, bool> visited;
+    Node* temp=head;
+    while(temp!=NULL){
+        if(visited[temp]==true){
+            cout<<"cycle is present at"<<" "<< visited[temp]<<endl;
+            return true;
+        }
+        visited[temp]=true;
+        temp= temp->next;
+    }
+    return false;
+}
+
+bool floydDetectLoop(Node* head){
+    if(head==NULL)
+    return false;
+    Node* slow = head;
+    Node* fast = head;
+
+    while(slow!=NULL&& fast!= NULL){
+        fast=fast->next;
+        if(fast!=NULL){
+            fast=fast->next;
+        }
+        slow=slow->next;
+        if(slow==fast){
+            return true;
+        }
+    }
+    return false;
+}
+
+void print(Node* &tail){
+    Node* temp=tail;
+    if(tail==NULL){
+        cout<<"empty list"<<endl;
+        return;
+        }
+    
+    do{
+        cout<<tail->data<<" ";
+        tail=tail->next;
+    }
+    while(tail !=temp);
+    cout<<endl;
+}
+
+void insertNode(Node* &tail, int element, int d){
+    if(tail==NULL){
+        Node* newNode = new Node(d);
+        tail=newNode;
+        newNode->next=newNode;
+    }
+    else{
+      Node* curr=tail;
+      while(curr->data!=element){
+          curr=curr->next;
+      }  
+      Node* temp= new Node(d);
+      temp->next=curr->next;
+      curr->next=temp;
+    }
+}
+
+
+
+int main(){
+    Node* tail=NULL;
+    insertNode(tail, 5, 3);
+    
+    insertNode(tail, 3, 5);
+ 
+    insertNode(tail, 5, 8);
+    
+    insertNode(tail, 5, 13);
+    
+    if(floydDetectLoop(tail)){
+        cout<<"LL has loop";
+    }    
+    else{
+        cout<<"LL does not have loop";
+    }
+    return 0;
+}
