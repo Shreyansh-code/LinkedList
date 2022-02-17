@@ -1,0 +1,88 @@
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+
+class Node{
+public:    
+    int data;
+    Node* next;
+
+    Node(int d){
+        this->data=d;
+        this->next=NULL;
+    } 
+};
+
+bool isCircular(Node* &head){
+        if(head==NULL){
+            return false;
+        }
+        Node* temp = head->next;
+        while(temp!=NULL&&temp!=head){
+            temp=temp->next;
+        }
+        if(temp==head){
+            return true;
+        }
+    }
+
+
+
+
+void print(Node* &tail){
+    Node* temp=tail;
+    if(tail==NULL){
+        cout<<"empty list"<<endl;
+        return;
+        }
+    
+    do{
+        cout<<tail->data<<" ";
+        tail=tail->next;
+    }
+    while(tail !=temp);
+    cout<<endl;
+}
+
+void insertNode(Node* &tail, int element, int d){
+    if(tail==NULL){
+        Node* newNode = new Node(d);
+        tail=newNode;
+        newNode->next=newNode;
+    }
+    else{
+      Node* curr=tail;
+      while(curr->data!=element){
+          curr=curr->next;
+      }  
+      Node* temp= new Node(d);
+      temp->next=curr->next;
+      curr->next=temp;
+    }
+}
+
+
+
+int main(){
+    Node* tail=NULL;
+    insertNode(tail, 5, 3);
+   
+
+    insertNode(tail, 3, 5);
+   
+
+    insertNode(tail, 5, 8);
+   
+
+    insertNode(tail, 5, 13);
+  
+
+    if(isCircular(tail)){
+        cout<<"LL is Circular";
+    }    
+    else{
+        cout<<"LL is not Circular";
+    }
+    return 0;
+}
